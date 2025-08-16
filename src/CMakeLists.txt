@@ -144,8 +144,8 @@ endif ( USE_PYBIND )
 
 # find all project files
 add_subdirectory (Common)
-#add_subdirectory (ShortCutSolver)
-#add_subdirectory (Examples)
+add_subdirectory (ShortCutSolver)
+add_subdirectory (Examples)
 
 
-#install (FILES Common.h LP_CPLEX.h LP_Lemon.h ShortCutSolver.h Sinkhorn.h DESTINATION ${CMAKE_BINARY_DIR}/../include)
+install (FILES Common.h LP_CPLEX.h LP_Lemon.h ShortCutSolver.h Sinkhorn.h DESTINATION ${CMAKE_BINARY_DIR}/../include)

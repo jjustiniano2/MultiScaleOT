@@ -5,6 +5,7 @@
 #include<cmath>
 
 #include<Common/GridTools.h>
+#include<Common/CompilerCompat.h>
 #include<Common/TVarListHandler.h>
 #include<Common/THierarchicalPartition.h>
 
