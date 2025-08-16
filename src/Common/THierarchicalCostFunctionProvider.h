@@ -6,6 +6,8 @@
 #include<algorithm>
 
 #include<Common/Tools.h>
+#include<Common/CompilerCompat.h>
+
 
 class THierarchicalCostFunctionProvider {
 public:

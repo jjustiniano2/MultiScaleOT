@@ -9,15 +9,31 @@ set(CMAKE_C_STANDARD 11)
 
 # add src root as include directory
 include_directories(.)
+# Mark as SYSTEM so warnings from Eigen are suppressed
+include_directories(SYSTEM ${EIGEN3_INCLUDE_DIR})
 
-# Position Independent Code
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+# For M_PI etc.
+add_compile_definitions(_USE_MATH_DEFINES)
+
+# Ask CMake to use PIC where it makes sense (it will add -fPIC on GCC/Clang,
+# and do nothing on MSVC/clang-cl).
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Misc compiler flags
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -Wall -Wextra -pedantic-errors")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -Wextra -pedantic-errors")
+# Let the build type control optimization: Release -> /O2 on MSVC, -O3 on GCC/Clang
+# (If you're using a single-config generator you can default it)
+if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+  	set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
 
+# Warnings per compiler
+if(MSVC)  # true for MSVC and clang-cl in MSVC mode
+  	add_compile_options(/W4 /permissive- /EHsc)  # high warnings, strict conformance, C++ exceptions
+  	# Optional: treat warnings as errors -> /WX
+else()
+  	add_compile_options(-Wall -Wextra -Wpedantic)  # portable warning set
+  	# Optional: make pedantic warnings errors -> -Werror
+endif()
 
 # Verbose mode
 option(SET_VERBOSE "Verbose output" ON)
@@ -59,10 +75,9 @@ if( USE_LEMON )
 
 endif ( USE_LEMON )
 
-
 # configure eigen3
 find_package (Eigen3 3.3 QUIET)
-if( EIGEN3_FOUND )
+if( EIGEN3_FOUND)
 	message(STATUS "Eigen3 library found at ${EIGEN3_INCLUDE_DIR}")
 else(EIGEN3_FOUND)
 	message(STATUS "Eigen3 library not found")
@@ -129,8 +144,8 @@ endif ( USE_PYBIND )
 
 # find all project files
 add_subdirectory (Common)
-add_subdirectory (ShortCutSolver)
-add_subdirectory (Examples)
+#add_subdirectory (ShortCutSolver)
+#add_subdirectory (Examples)
 
 
-install (FILES Common.h LP_CPLEX.h LP_Lemon.h ShortCutSolver.h Sinkhorn.h DESTINATION ${CMAKE_BINARY_DIR}/../include)
+#install (FILES Common.h LP_CPLEX.h LP_Lemon.h ShortCutSolver.h Sinkhorn.h DESTINATION ${CMAKE_BINARY_DIR}/../include)

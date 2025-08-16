@@ -4,6 +4,7 @@
 #include<cstdlib>
 #include<Common/ErrorCodes.h>
 #include<Common/TVarListHandler.h>
+#include<Common/CompilerCompat.h>
 
 class TCostFunctionProviderBase {
 	public:

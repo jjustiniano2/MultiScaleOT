@@ -4,6 +4,7 @@
 #include<Common/ErrorCodes.h>
 #include<Common/Tools.h>
 #include<Common/Verbose.h>
+#include<Common/CompilerCompat.h>
 
 #include<Common/THierarchicalPartition.h>
 #include<Common/MultiScaleTools.h>
